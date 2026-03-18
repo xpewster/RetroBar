@@ -348,6 +348,13 @@ namespace RetroBar.Utilities
             set => Set(ref _showStartButtonMultiMon, value);
         }
 
+        private int _maxQuickLaunchIconsMultiMon = MaxQuickLaunchIconsMultiMonLimit.GetAllValue();
+        public int MaxQuickLaunchIconsMultiMon
+        {
+            get => _maxQuickLaunchIconsMultiMon;
+            set => Set(ref _maxQuickLaunchIconsMultiMon, value);
+        }
+
         private bool _autoHideTransparent = false;
         public bool AutoHideTransparent
         {
@@ -477,6 +484,22 @@ namespace RetroBar.Utilities
     {
         public string Identifier {  get; set; }
         public NotifyIconBehavior Behavior { get; set; }
+    }
+    #endregion
+
+    #region Classes
+    public static class MaxQuickLaunchIconsMultiMonLimit
+    {
+        private const int All = 10;
+
+        public static bool IsAll(int value)
+        {
+            return value == All;
+        }
+        public static int GetAllValue()
+        {
+            return All;
+        }
     }
     #endregion
 }

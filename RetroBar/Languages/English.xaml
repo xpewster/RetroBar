@@ -30,6 +30,7 @@
     <s:String x:Key="show_clock">Show the cloc_k</s:String>
     <s:String x:Key="show_multi_mon">Show on _multiple displays</s:String>
     <s:String x:Key="show_start_button_multi_mon">Show _Start button on all taskbars</s:String>
+    
     <s:String x:Key="show_quick_launch">Show _Quick Launch</s:String>
     <s:String x:Key="select_location">_Select location...</s:String>
     <s:String x:Key="quick_launch_folder">Quick Launch - Choose a folder</s:String>
@@ -40,6 +41,20 @@
     <s:String x:Key="enable_auto_hide">A_uto-hide the taskbar</s:String>
     <s:String x:Key="lock_taskbar">_Lock the taskbar</s:String>
     <s:String x:Key="multiple_displays">Multiple displays</s:String>
+    <s:String x:Key="max_quick_launch_icons_multi_mon">Max number of Quick Launch icons on non-primary taskbars:</s:String>
+    <x:Array x:Key="max_quick_launch_icons_multi_mon_values" Type="s:String">
+        <s:String>0</s:String>
+        <s:String>1</s:String>
+        <s:String>2</s:String>
+        <s:String>3</s:String>
+        <s:String>4</s:String>
+        <s:String>5</s:String>
+        <s:String>6</s:String>
+        <s:String>7</s:String>
+        <s:String>8</s:String>
+        <s:String>9</s:String>
+        <s:String>All</s:String>
+    </x:Array>
     <s:String x:Key="show_tasks_on">S_how tasks on:</s:String>
     <x:Array x:Key="show_tasks_on_values" Type="s:String">
         <s:String>All taskbars</s:String>

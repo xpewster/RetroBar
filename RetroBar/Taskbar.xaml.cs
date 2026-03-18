@@ -223,6 +223,10 @@ namespace RetroBar
             {
                 UpdateStartButton();
             }
+            else if (e.PropertyName == nameof(Settings.MaxQuickLaunchIconsMultiMon))
+            {
+                UpdateQuickLaunch(); 
+            }
             else if (e.PropertyName == nameof(Settings.AutoHideTransparent))
             {
                 PeekDuringAutoHide();
@@ -506,6 +510,17 @@ namespace RetroBar
             }
 
             StartButton.Visibility = Visibility.Visible;
+        }
+
+        private void UpdateQuickLaunch()
+        {
+            if (!Screen.Primary && Settings.Instance.MaxQuickLaunchIconsMultiMon == 0)
+            {
+                QuickLaunchToolbar.Visibility = Visibility.Collapsed;
+                return;
+            }
+
+            QuickLaunchToolbar.Visibility = Visibility.Visible;
         }
 
         private bool HasFullScreenApp()

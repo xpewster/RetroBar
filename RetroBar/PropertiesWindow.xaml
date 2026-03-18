@@ -434,6 +434,21 @@
                             </CheckBox>
                             <DockPanel>
                                 <Label VerticalAlignment="Center"
+                                    Target="{Binding ElementName=cboMaxQuickLaunchIconsMultiMon}">
+                                    <AccessText Text="{DynamicResource max_quick_launch_icons_multi_mon}"
+                                        TextWrapping="Wrap"
+                                        MaxWidth="200" />
+                                </Label>
+                                <ComboBox x:Name="cboMaxQuickLaunchIconsMultiMon"
+                                        VerticalAlignment="Center"
+                                        IsEnabled="{Binding Source={x:Static Settings:Settings.Instance}, Path=ShowMultiMon, UpdateSourceTrigger=PropertyChanged}"
+                                        ItemsSource="{DynamicResource max_quick_launch_icons_multi_mon_values}"
+                                        SelectedIndex="{Binding Source={x:Static Settings:Settings.Instance}, Path=MaxQuickLaunchIconsMultiMon, UpdateSourceTrigger=PropertyChanged}"
+                                        SelectionChanged="CboMaxQuickLaunchIconsMultiMon_SelectionChanged"
+                                        Width="125" />
+                            </DockPanel>
+                            <DockPanel>
+                                <Label VerticalAlignment="Center"
                                        Target="{Binding ElementName=cboMultiMonMode}">
                                     <AccessText Text="{DynamicResource show_tasks_on}" />
                                 </Label>

@@ -22,6 +22,8 @@ namespace RetroBar.Controls
         private bool _ignoreNextUpdate;
         private bool _isLoaded;
 
+        private Comparer<ShellFile> _sortComparer;
+
         private enum MenuItem : uint
         {
             OpenParentFolder = CommonContextMenuItem.Paste + 1
@@ -84,6 +86,10 @@ namespace RetroBar.Controls
             {
                 Refresh();
             }
+            else if (e.PropertyName == nameof(Settings.MaxQuickLaunchIconsMultiMon))
+            {
+                Refresh();
+            }
         }
 
         private void Refresh()
@@ -105,6 +111,10 @@ namespace RetroBar.Controls
 
         private void UnloadFolder()
         {
+            if (Folder != null)
+            {
+                Folder.Files.CollectionChanged -= Files_CollectionChanged;
+            }
             Folder?.Dispose();
             Folder = null;
         }
@@ -113,17 +123,21 @@ namespace RetroBar.Controls
         {
             if (Folder != null)
             {
+                Folder.Files.CollectionChanged += Files_CollectionChanged;
                 ToolbarItems.ItemsSource = Folder.Files;
                 ListCollectionView cvs = (ListCollectionView)CollectionViewSource.GetDefaultView(Folder.Files);
                 cvs.CustomSort = new ToolbarSorter(this);
+                _sortComparer = Comparer<ShellFile>.Create((a, b) => cvs.CustomSort.Compare(a, b));
+                cvs.Filter = QuickLaunchFilter;
             }
         }
 
         public void SaveItemOrder()
         {
             List<string> itemPaths = new List<string>();
+            ListCollectionView cvs = (ListCollectionView)CollectionViewSource.GetDefaultView(Folder.Files);
 
-            foreach (ShellFile file in ((ListCollectionView)CollectionViewSource.GetDefaultView(Folder.Files)).OfType<ShellFile>())
+            foreach (ShellFile file in Folder.Files.Cast<ShellFile>().OrderBy(f => f, _sortComparer))
             {
                 itemPaths.Add(file.Path);
             }
@@ -163,12 +177,36 @@ namespace RetroBar.Controls
             }
         }
 
+        private bool QuickLaunchFilter(object item)
+        {
+            int max = Settings.Instance.MaxQuickLaunchIconsMultiMon;
+            if (Host.Screen.Primary || MaxQuickLaunchIconsMultiMonLimit.IsAll(max))
+            {
+                return true;
+            }
+
+            var cvs = (ListCollectionView)CollectionViewSource.GetDefaultView(Folder.Files);
+            return Folder.Files
+                .Cast<ShellFile>()
+                .OrderBy(f => f, _sortComparer)
+                .Take(max)
+                .Contains(item);
+        }
+
         #region Events
         private static void OnPathChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
             if (sender is Toolbar toolbar)
             {
                 toolbar.SetupFolder((string)e.NewValue);
+            }
+        }
+
+        private void Files_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (!Host.Screen.Primary && !MaxQuickLaunchIconsMultiMonLimit.IsAll(Settings.Instance.MaxQuickLaunchIconsMultiMon))
+            {
+                Refresh();
             }
         }
 

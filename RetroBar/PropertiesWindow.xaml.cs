@@ -9,6 +9,7 @@ using ManagedShell.Common.Logging;
 using Microsoft.Win32;
 using ManagedShell.AppBar;
 using System.Windows.Forms;
+using System.Windows.Input;
 using ManagedShell.WindowsTray;
 using System.Runtime.CompilerServices;
 using System.IO;
@@ -393,6 +394,14 @@ namespace RetroBar
             }
         }
 
+        private void CboMaxQuickLaunchIconsMultiMon_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            if (cboMaxQuickLaunchIconsMultiMon.SelectedItem == null)
+            {
+                cboMaxQuickLaunchIconsMultiMon.SelectedValue = cboMaxQuickLaunchIconsMultiMon.Items[Settings.Instance.MaxQuickLaunchIconsMultiMon];
+            }
+        }
+
         private void CboMultiMonMode_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
             if (cboMultiMonMode.SelectedItem == null)
@@ -471,6 +480,11 @@ namespace RetroBar
             string path = _dictionaryManager.GetThemeInstallDir();
             Directory.CreateDirectory(path);
             ShellHelper.StartProcess(path);
+        }
+        
+        private void NumericOnly_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !int.TryParse(e.Text, out _);
         }
     }
 }
