@@ -1,4 +1,4 @@
-using ManagedShell.AppBar;
+﻿using ManagedShell.AppBar;
 using ManagedShell.Common.Helpers;
 using ManagedShell.WindowsTray;
 using System;
@@ -275,6 +275,13 @@ namespace RetroBar.Utilities
         {
             get => _notifyIconOrder;
             set => Set(ref _notifyIconOrder, value);
+        }
+        
+        private List<QuickLaunchIconSetting> _quickLaunchIconSettings = new List<QuickLaunchIconSetting>();
+        public List<QuickLaunchIconSetting> QuickLaunchIconSettings
+        {
+            get => _quickLaunchIconSettings;
+            set => Set(ref _quickLaunchIconSettings, value);
         }
 
         private bool _allowFontSmoothing = false;
@@ -595,6 +602,12 @@ namespace RetroBar.Utilities
     {
         public string Identifier {  get; set; }
         public NotifyIconBehavior Behavior { get; set; }
+    }
+
+    public struct QuickLaunchIconSetting
+    {
+        public string Path { get; set; }
+        public List<string> DisabledOnDisplays { get; set; }
     }
     #endregion
 }
